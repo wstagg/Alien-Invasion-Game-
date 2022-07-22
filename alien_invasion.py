@@ -117,6 +117,9 @@ class AlienInvasion:
 			self.stats.game_active = True 
 			self.sb.prep_score()
 
+			self.sb.prep_level()
+			self.sb.prep_ships()
+
 			# get rid of any remaining aliens and bullets.
 			self.aliens.empty()
 			self.bullets.empty()
@@ -182,6 +185,10 @@ class AlienInvasion:
 			self._create_fleet()
 			self.settings.increase_speed()
 
+			# Increase level
+			self.stats.level += 1
+			self.sb.prep_level()
+
 	def _update_aliens(self):
 		"""Check if the fleet is at an edge, then update the postions of all alines in fleet."""
 		self._check_fleet_edges()
@@ -197,8 +204,9 @@ class AlienInvasion:
 		"""Respond to ship being hit by a alien."""
 		if self.stats.ships_left > 0:
 
-			# Decrement ships_left.
+			# Decrement ships_left and update the scorebpard.
 			self.stats.ships_left -= 1
+			self.sb.prep_ships()
 
 			# Get rid of any remaining alien and bullets.
 			self.aliens.empty()
@@ -244,6 +252,6 @@ class AlienInvasion:
 
 
 if __name__ == '__main__':
-	# Make and game instance and run the game.
+	# Make a game instance and run the game.
 	ai = AlienInvasion()
 	ai.run_game()
